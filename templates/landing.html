@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceCraft - AI Text to Speech</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="landing-page">
+    <div class="app-container">
+        <div class="background-orb"></div>
+        <!-- Navigation Bar -->
+        <nav class="navbar landing-nav">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-wave-square"></i></div>
+                <div class="logo-text">VoiceCraft</div>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-icon"><i class="fas fa-history"></i></button>
+                <button class="btn-icon"><i class="fas fa-cog"></i></button>
+                <div class="user-avatar"><img src="https://ui-avatars.com/api/?name=User&background=random" alt="User">
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content hero-section">
+            <h1 class="hero-title">Your Words, Refined.</h1>
+            <p class="hero-subtitle">Transform any text into professional, human-like speech<br>with cutting-edge AI
+                technology.</p>
+
+            <a href="{{ url_for('editor') }}" class="btn-primary btn-large">
+                <i class="fas fa-magic"></i> Start Creating
+            </a>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i> <span>NATURAL AI VOICES</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-bolt"></i> <span>INSTANT GENERATION</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-cloud-download-alt"></i> <span>HD MP3 EXPORT</span>
+                </div>
+            </div>
+        </main>
+
+        <footer class="landing-footer">
+            &copy; 2024 VoiceCraft AI. All rights reserved.
+        </footer>
+    </div>
+</body>
+
+</html>

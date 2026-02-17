@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceCraft - Studio Editor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-wave-square"></i></div>
+                <div class="logo-text">VoiceCraft <span class="pro-badge">PRO STUDIO</span></div>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">Voices</a>
+                <a href="#">Dashboard</a>
+                <a href="#">Library</a>
+                <a href="#">Settings</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary">Share Workspace</button>
+                <div class="user-avatar"><img src="https://ui-avatars.com/api/?name=User&background=random" alt="User"></div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h1>Studio Editor</h1>
+                    <p>Craft high-fidelity synthetic voices for your next project.</p>
+                </div>
+
+                <div class="content-input-section">
+                    <label class="section-label"><i class="fas fa-align-left"></i> Content Input</label>
+                    <div class="text-area-wrapper">
+                        <textarea id="textInput" placeholder="The quick brown fox jumps over the lazy dog." maxlength="5000"></textarea>
+                        <div class="char-count"><span id="charCount">0</span> / 5000 CHARACTERS</div>
+                    </div>
+                </div>
+
+                <div class="voice-selection-section">
+                    <div class="voice-option selected" data-gender="male" onclick="selectVoice('male')">
+                        <div class="voice-icon"><i class="fas fa-microphone-alt"></i></div>
+                        <div class="voice-details">
+                            <span class="voice-name">Deep Narrator</span>
+                            <span class="voice-type">PREMIUM MALE</span>
+                        </div>
+                    </div>
+                    <div class="voice-option" data-gender="female" onclick="selectVoice('female')">
+                        <div class="voice-icon"><i class="fas fa-wind"></i></div>
+                        <div class="voice-details">
+                            <span class="voice-name">Soft Whisper</span>
+                            <span class="voice-type">NATURAL FEMALE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <button id="generateBtn" class="btn-primary" onclick="generateSpeech()">
+                        <span id="btnText">Convert to Speech</span>
+                        <div id="loadingSpinner" class="spinner" style="display: none;"></div>
+                    </button>
+                    <button class="btn-icon"><i class="fas fa-cog"></i></button>
+                    <button class="btn-icon"><i class="fas fa-history"></i></button>
+                </div>
+            </div>
+
+            <!-- Recent Generations (Mock Data) -->
+            <div class="recent-generations">
+                <div class="recent-header">
+                    <h3>Recent Generations</h3>
+                    <a href="#">View Library</a>
+                </div>
+                <div class="generation-item">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                    <span class="gen-name">Project_alpha_v1.mp3</span>
+                    <span class="gen-time">2m ago</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
