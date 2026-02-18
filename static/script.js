@@ -2,11 +2,11 @@ let selectedGender = 'male';
 
 function selectVoice(gender) {
     selectedGender = gender;
-    
+
     // Update UI
     document.querySelectorAll('.voice-option').forEach(option => {
         option.classList.remove('selected');
-        if(option.getAttribute('data-gender') === gender) {
+        if (option.getAttribute('data-gender') === gender) {
             option.classList.add('selected');
         }
     });
@@ -44,13 +44,22 @@ async function generateSpeech() {
             }),
         });
 
-        const data = await response.json();
-
         if (response.ok) {
             console.log("Speech generation started");
-            // Since audio plays on server, we just reset state after a short delay
-            // logic could be improved if we streamed audio back
+
+            // Handle binary audio data
+            const blob = await response.blob();
+            const audioUrl = URL.createObjectURL(blob);
+            const audio = new Audio(audioUrl);
+
+            audio.onended = () => {
+                URL.revokeObjectURL(audioUrl); // Clean up
+            };
+
+            await audio.play();
+
         } else {
+            const data = await response.json();
             console.error("Error:", data.error);
             alert("Error generating speech: " + data.error);
         }
@@ -69,7 +78,7 @@ async function generateSpeech() {
 }
 
 // Character Count
-document.getElementById('textInput').addEventListener('input', function() {
+document.getElementById('textInput').addEventListener('input', function () {
     const currentLength = this.value.length;
     document.getElementById('charCount').textContent = currentLength;
 });
