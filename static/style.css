@@ -21,7 +21,8 @@ body {
     animation: gradientBG 15s ease infinite;
     color: var(--text-color);
     height: 100vh;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 @keyframes gradientBG {
@@ -402,6 +403,17 @@ textarea::placeholder {
     .nav-actions button {
         display: none;
         /* Simplify for mobile for now */
+    }
+
+    .app-container {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: visible;
+    }
+
+    .main-content {
+        padding-bottom: 80px;
+        /* Space for scrolling past button */
     }
 }
 
