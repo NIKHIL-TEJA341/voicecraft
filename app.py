@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, make_response, jsonify
-from gtts import gTTS
+import edge_tts
+import asyncio
 import io
 
 app = Flask(__name__)
@@ -22,29 +23,30 @@ def speak():
         return jsonify({"error": "No text provided"}), 400
     
     try:
-        # Select voice language/accent based on gender (approximation)
-        # gTTS doesn't support specific "male/female" voices directly in the standard API,
-        # but we can use different top-level domains (TLDs) to get different accents/tones.
-        # usually 'com' is US female, 'co.uk' is UK female.
-        # There isn't a direct "Male" voice in standard gTTS without paid APIs.
-        # However, for this free requirement, we will stick to standard gTTS which is high quality.
-        # To strictly better the experience, we can use different accents.
+        # Determine Voice, Rate, and Pitch based on user requirements
+        # Male: "base and slow" -> Christopher (Deep), Slow Rate, Lower Pitch
+        # Female: "sweet and slow" -> Aria (Sweet/Standard), Slow Rate
         
-        tld = 'com'
-        if gender == 'male':
-            # gTTS is limited in gender selection for free endpoint.
-            # Using a different accent to distinguish, or just standard voice.
-            # NOTE: gTTS provides primarily a female voice. 
-            # To get a male voice for *free* is hard without pyttsx3 (local) or EdgeTTS.
-            # For now, we will use 'co.uk' for one and 'com' for another to differ.
-            tld = 'co.uk' 
-        
-        tts = gTTS(text=text, lang='en', tld=tld, slow=False)
-        
-        # Save to memory buffer
-        mp3_fp = io.BytesIO()
-        tts.write_to_fp(mp3_fp)
-        mp3_fp.seek(0)
+        voice = 'en-US-ChristopherNeural'
+        rate = '-20%' 
+        pitch = '-10Hz'
+
+        if gender == 'female':
+            voice = 'en-US-AriaNeural'
+            rate = '-10%'
+            pitch = '+0Hz'
+
+        async def generate_audio():
+            communicate = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch)
+            out = io.BytesIO()
+            async for chunk in communicate.stream():
+                if chunk["type"] == "audio":
+                    out.write(chunk["data"])
+            out.seek(0)
+            return out
+
+        # Run async function in sync route
+        mp3_fp = asyncio.run(generate_audio())
         
         response = make_response(mp3_fp.read())
         response.headers['Content-Type'] = 'audio/mpeg'
@@ -53,6 +55,8 @@ def speak():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
